@@ -1,0 +1,42 @@
+.container {
+  border: 2px solid black;
+}
+.row {
+  display: flex;
+}
+
+.userCol {
+  width: 100px;
+  height: 50px;
+  border-right: 2px solid black;
+  padding-left: 10px;
+}
+
+.postCol {
+  width: 300px;
+  border-right: 2px solid black;
+}
+
+.post {
+  margin: 1rem;
+  top: 6em;
+  position: absolute;
+  word-wrap: break-word;
+  width: 280px;
+}
+
+.postDetailCol {
+  width: 600px;
+  top: 6em;
+  left: 27rem;
+  position: absolute;
+  word-wrap: break-word;
+}
+
+.commentPostTitle {
+  margin-bottom: 1rem;
+}
+
+.commentPostBody {
+  margin-bottom: 1rem;
+}
