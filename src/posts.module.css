@@ -27,8 +27,8 @@
 
 .postDetailCol {
   width: 600px;
-  top: 6em;
-  left: 27rem;
+  top: -1rem;
+  left: 20rem;
   position: absolute;
   word-wrap: break-word;
 }

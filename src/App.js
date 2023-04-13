@@ -3,13 +3,14 @@ import "./App.css";
 import styles from "./posts.module.css";
 
 export default function App() {
-  const [users, setUsers] = useState("");
-  const [posts, setPosts] = useState("");
-  const [comments, setComments] = useState("");
+  const [users, setUsers] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   const [selectedUserIndex, setSelectedUserIndex] = useState(null);
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [selectedPostIndex, setSelectedPostIndex] = useState(0);
   const [filteredComments, setFilteredComments] = useState([]);
+  const [expandedPostIndex, setExpandedPostIndex] = useState(null);
 
   useEffect(() => {
     fetch("https://dummyjson.com/users")
@@ -39,14 +40,11 @@ export default function App() {
     const selectedUser = users[userIndex];
     const userId = selectedUser.id;
     const filteredPosts = posts.filter((p) => p.userId === userId);
-    setSelectedUserIndex(userIndex);
-    setFilteredPosts(filteredPosts);
 
-    if (selectedUserIndex === userIndex) {
-      setSelectedUserIndex(false);
-    } else {
-      setSelectedUserIndex(userIndex);
-    }
+    setSelectedUserIndex((prevIndex) =>
+      prevIndex === userIndex ? null : userIndex
+    );
+    setFilteredPosts(filteredPosts);
   };
 
   const handleGetExpand = (userIndex, postIndex) => {
@@ -55,24 +53,30 @@ export default function App() {
     const filteredPosts = posts.filter((p) => p.userId === userId);
 
     const selectedPost = filteredPosts[postIndex];
-
     const postId = selectedPost.id;
     const filteredComments = comments.filter((c) => c.postId === postId);
+
     setSelectedPostIndex(postIndex);
     setFilteredComments(filteredComments);
+    setExpandedPostIndex((prevIndex) =>
+      prevIndex === postIndex ? null : postIndex
+    );
 
+    console.log([postId]);
     console.log(filteredComments);
+    console.log(filteredPosts);
   };
+  console.log(filteredPosts);
 
   return (
     <div className="App">
       <h1>Awesome Post Page - by Phoebe Su</h1>
       <div className={styles.container}>
-        {Array.from(users).map((element, userIndex) => {
+        {users.map((user, userIndex) => {
           return (
-            <div key={userIndex} className={styles.row}>
+            <div className={styles.row} key={user.id}>
               <div className={styles.userCol}>
-                <div>{element.firstName}</div>
+                <div>{user.firstName}</div>
                 <button onClick={() => handleGetPost(userIndex)}>
                   get Post
                 </button>
@@ -81,47 +85,71 @@ export default function App() {
               <div className={styles.postCol}>
                 <div className={styles.post}>
                   {selectedUserIndex === userIndex &&
-                    filteredPosts.map((post, postIndex) => {
-                      return (
-                        <div key={postIndex}>
-                          <div className={styles.postTitle}>{post.title}</div>
-                          <button
-                            onClick={() =>
-                              handleGetExpand(userIndex, postIndex)
-                            }
-                          >
-                            expand
-                          </button>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-
-              <div className={styles.postDetailCol}>
-                <div className={styles.postDetail}>
-                  {selectedUserIndex === userIndex &&
-                    (filteredComments.length === 0 ? (
-                      <div>No data</div>
+                    (filteredPosts.length === 0 ? (
+                      <div>no post</div>
                     ) : (
-                      filteredComments.map((comment, index) => {
-                        return (
-                          <div key={index}>
-                            {filteredPosts.map((post, postIndex) => {
-                              return (
-                                <>
-                                  <h3 className={styles.commentPostTitle}>
-                                    {post.title}
-                                  </h3>
-                                  <div className={styles.commentPostBody}>
-                                    {post.body}
-                                  </div>
-                                </>
-                              );
-                            })}
-                            <h3>Comments</h3>
-                            {`${comment.body} - 
-                            ${comment.user.username}`}
+                      filteredPosts.map((post, postIndex) => {
+                        return filteredPosts.length === 0 ? (
+                          <div>no post</div>
+                        ) : (
+                          <div key={post.id}>
+                            <div className={styles.postTitle}>{post.title}</div>
+                            <button
+                              onClick={() =>
+                                handleGetExpand(userIndex, postIndex)
+                              }
+                            >
+                              expand
+                            </button>
+                            {expandedPostIndex === postIndex && (
+                              <div className={styles.postDetailCol}>
+                                {/* //Third Post detail and Comment Area */}
+                                <div className={styles.postDetail}>
+                                  {selectedUserIndex === userIndex &&
+                                    (filteredComments.length === 0 ? (
+                                      <div>No data</div>
+                                    ) : (
+                                      filteredComments.map((comment, index) => {
+                                        return (
+                                          <div key={index}>
+                                            {filteredPosts.map(
+                                              (post, postIndex) => {
+                                                if (
+                                                  postIndex ===
+                                                  selectedPostIndex
+                                                ) {
+                                                  return (
+                                                    <>
+                                                      <h3
+                                                        className={
+                                                          styles.commentPostTitle
+                                                        }
+                                                      >
+                                                        {post.title}
+                                                      </h3>
+                                                      <div
+                                                        className={
+                                                          styles.postBody
+                                                        }
+                                                      >
+                                                        {post.body}
+                                                      </div>
+                                                    </>
+                                                  );
+                                                }
+                                                return null;
+                                              }
+                                            )}
+
+                                            <h3>Comments</h3>
+                                            {`${comment.body} - ${comment.user.username}`}
+                                          </div>
+                                        );
+                                      })
+                                    ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
                         );
                       })
