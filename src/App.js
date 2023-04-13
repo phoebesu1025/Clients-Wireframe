@@ -11,6 +11,13 @@ export default function App() {
   const [selectedPostIndex, setSelectedPostIndex] = useState(0);
   const [filteredComments, setFilteredComments] = useState([]);
   const [expandedPostIndex, setExpandedPostIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(10);
+
+  const totalPages = Math.ceil(users.length / usersPerPage);
+  const lastIndex = currentPage * usersPerPage;
+  const firstIndex = lastIndex - usersPerPage;
+  const usersToDisplay = users.slice(firstIndex, lastIndex);
 
   useEffect(() => {
     fetch("https://dummyjson.com/users")
@@ -72,7 +79,31 @@ export default function App() {
     <div className="App">
       <h1>Awesome Post Page - by Phoebe Su</h1>
       <div className={styles.container}>
-        {users.map((user, userIndex) => {
+        <div className={styles.pagination}>
+          <button
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentPage(index + 1)}
+              className={currentPage === index + 1 ? styles.activePage : ""}
+            >
+              {index + 1}
+            </button>
+          ))}
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </button>
+        </div>
+
+        {usersToDisplay.map((user, userIndex) => {
           return (
             <div className={styles.row} key={user.id}>
               <div className={styles.userCol}>
@@ -140,7 +171,6 @@ export default function App() {
                                                 return null;
                                               }
                                             )}
-
                                             <h3>Comments</h3>
                                             {`${comment.body} - ${comment.user.username}`}
                                           </div>
