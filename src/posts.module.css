@@ -1,28 +1,113 @@
-.container {
-  border: 2px solid black;
+/* header */
+h1 {
+  background: -webkit-linear-gradient(
+    top left,
+    rgba(52, 71, 152, 1),
+    rgba(123, 232, 227, 1)
+  );
+  background: -moz-linear-gradient(
+    top left,
+    rgba(52, 71, 152, 1),
+    rgba(123, 232, 227, 1)
+  );
+  background: linear-gradient(
+    to bottom right,
+    rgba(52, 71, 152, 1),
+    rgba(123, 232, 227, 1)
+  );
+  box-shadow: 2px 1px 1px rgba(72, 74, 92, 0.577);
+
+  border-radius: 5px;
+  padding: 1rem 0;
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5rem;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
+
+h1 span {
+  font-size: 1rem;
+}
+/* header */
+
+.container {
+  border: 1px solid rgb(14, 18, 37);
+  border-radius: 5px;
+}
+
+button {
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(75, 109, 161);
+  color: white;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.5;
+}
+
+.pagination {
+  padding: 0.5rem 0.5rem 0.5rem 7rem;
+  background: -webkit-linear-gradient(
+    left,
+    rgb(62, 81, 134),
+    rgb(123, 187, 232)
+  );
+}
+
+.pagination button {
+  margin-right: 0.5rem;
+  background-color: rgb(77, 129, 207);
+}
+
+.pagination .activePage {
+  background-color: rgb(8, 35, 74);
+}
+
+/* /////////user column//////////// */
 .row {
   display: flex;
 }
 
 .userCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100px;
-  height: 50px;
-  border-right: 2px solid black;
-  padding-left: 10px;
+  padding: 0.5rem 0;
+  border-right: 1px solid black;
+  background-color: rgb(62, 81, 134);
 }
+.userName {
+  color: white;
+}
+
+/* //////////// */
+/*////////////post column///////////*/
 
 .postCol {
   width: 300px;
-  border-right: 2px solid black;
+  border-right: 1px dashed black;
 }
 
 .post {
   margin: 1rem;
-  top: 6em;
   position: absolute;
+  top: 10rem;
   word-wrap: break-word;
   width: 280px;
+}
+
+.postTitle {
+  margin-bottom: 0.5rem;
+}
+
+.postBtn {
+  margin-bottom: 1rem;
 }
 
 .postDetailCol {
@@ -39,4 +124,8 @@
 
 .commentPostBody {
   margin-bottom: 1rem;
+}
+
+.nodata {
+  margin-top: 1rem;
 }

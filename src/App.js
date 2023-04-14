@@ -77,7 +77,9 @@ export default function App() {
 
   return (
     <div className="App">
-      <h1>Awesome Post Page - by Phoebe Su</h1>
+      <h1>
+        Awesome Post Page <span>- by Phoebe Su</span>
+      </h1>
       <div className={styles.container}>
         <div className={styles.pagination}>
           <button
@@ -107,7 +109,7 @@ export default function App() {
           return (
             <div className={styles.row} key={user.id}>
               <div className={styles.userCol}>
-                <div>{user.firstName}</div>
+                <div className={styles.userName}>{user.firstName}</div>
                 <button onClick={() => handleGetPost(userIndex)}>
                   get Post
                 </button>
@@ -126,6 +128,7 @@ export default function App() {
                           <div key={post.id}>
                             <div className={styles.postTitle}>{post.title}</div>
                             <button
+                              className={styles.postBtn}
                               onClick={() =>
                                 handleGetExpand(userIndex, postIndex)
                               }
@@ -138,11 +141,16 @@ export default function App() {
                                 <div className={styles.postDetail}>
                                   {selectedUserIndex === userIndex &&
                                     (filteredComments.length === 0 ? (
-                                      <div>No data</div>
+                                      <div className={styles.nodata}>
+                                        No data
+                                      </div>
                                     ) : (
                                       filteredComments.map((comment, index) => {
                                         return (
-                                          <div key={index}>
+                                          <div
+                                            key={index}
+                                            className={styles.test}
+                                          >
                                             {filteredPosts.map(
                                               (post, postIndex) => {
                                                 if (
